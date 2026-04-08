@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cloud-resource-orchestrator"
+version = "0.1.0"
+description = "Cloud SRE environment for Meta Hackathon."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["openenv-core>=0.2.2", "fastapi", "uvicorn", "pydantic", "openai", "numpy", "uv"]
+
+[project.scripts]
+server = "server.app:main"

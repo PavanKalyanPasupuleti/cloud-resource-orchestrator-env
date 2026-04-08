@@ -1,0 +1,15 @@
+version: "0.1"
+type: environment
+name: cloud_resource_orchestrator
+description: "Autonomous cloud traffic management and cost optimization environment."
+interface:
+  actions: models.OrchestratorAction
+  observations: models.ClusterMetrics
+  state: models.OrchestratorState
+tasks:
+  - id: 0
+    name: "Traffic Spike (Easy)"
+  - id: 1
+    name: "Cost Optimizer (Medium)"
+  - id: 2
+    name: "Global viral surge (Hard)"
