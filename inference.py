@@ -5,6 +5,7 @@ from models import OrchestratorAction
 
 API_KEY = os.getenv("OPENAI_API_KEY") or os.getenv("HF_TOKEN")
 MODEL_NAME = os.getenv("MODEL_NAME", "meta-llama/Llama-3.1-70B-Instruct")
+
 SYSTEM_PROMPT = textwrap.dedent("""
     You are an Expert Cloud Capacity Manager.
     Your goal is to solve the current task based on metrics.
@@ -20,10 +21,18 @@ SYSTEM_PROMPT = textwrap.dedent("""
 """)
 
 def main():
+    if not API_KEY:
+        print("Error: HF_TOKEN or OPENAI_API_KEY not set.")
+        return
+
     client = OpenAI(base_url="https://router.huggingface.co/v1", api_key=API_KEY)
+    
     for task_id in [0, 1, 2]:
         print(f"\n--- Task {task_id} ---")
-        with OrchestratorClient(base_url=os.getenv("ENV_URL", "http://localhost:8000")).sync() as env:
+        # FIXED: Changed port 8000 to 7860
+        env_url = os.getenv("ENV_URL", "http://localhost:7860")
+        
+        with OrchestratorClient(base_url=env_url).sync() as env:
             obs = env.reset(task_id=task_id).observation
             for step in range(1, 5):
                 resp = client.chat.completions.create(model=MODEL_NAME, messages=[
